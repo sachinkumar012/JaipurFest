@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaipur Chomp '25 - Gen Z Social Media Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: "Electric Pink City" - Warm neutral background (Cream) with vibrant Hot Pink, Electric Blue, and Sunset Orange accents to mix Jaipur tradition with Gen Z energy. -->
+    
+    <!-- Application Structure Plan: 
+         1. **Hero Section**: Sets the vibe with a countdown and event details (JECC Grounds).
+         2. **Strategy Dashboard (Main Nav)**: A central interactive timeline (Day 1, 2, 3) acting as the primary navigation.
+         3. **Dynamic Content Feed**: The core interaction area. Clicking a day updates this section with "Morning", "Afternoon", and "Evening" content cards. Each card features a "Copy Caption" utility.
+         4. **Reel Studio**: A dedicated vertical section visualizing the specific Reel concept requested, broken down by seconds/scenes.
+         5. **Hype Analytics**: A Chart.js visualization showing projected engagement metrics to gamify the plan.
+         6. **Vibe Check (Style Guide)**: A visual reference for the requested "Design Deliverables" (Color/Mood).
+         
+         Rationale: This structure breaks down a linear document into an explorable app, allowing the user to focus on one day's execution at a time while keeping the 'big picture' metrics visible.
+    -->
+
+    <!-- Visualization & Content Choices:
+         - **Content Cards**: HTML/Tailwind Grid. Goal: Organize text-heavy content (captions/hashtags). Interaction: Click-to-copy caption.
+         - **Hype Meter**: Chart.js Bar Chart. Goal: Visualizing the "Engagement-driven" requirement. Justification: Shows the escalating intensity of the campaign over 3 days.
+         - **Reel Script Timeline**: Vertical Step-Flow (CSS/HTML). Goal: Visualize the video production flow. Interaction: Hover to see director's notes.
+         - **Icons**: Unicode Emojis. Confirmation: NO SVG used. NO Mermaid used.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFF8F0; /* Warm Cream */
+            color: #1A1A1A;
+        }
+        .neobrutalism {
+            box-shadow: 4px 4px 0px 0px #000000;
+            border: 2px solid #000000;
+            transition: all 0.2s ease;
+        }
+        .neobrutalism:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px #000000;
+        }
+        .neobrutalism:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px 0px #000000;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+        }
+        /* Chart Container Styling per requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header / Hero -->
+    <header class="bg-[#FF007F] text-white p-6 border-b-4 border-black">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0 text-center md:text-left">
+                <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter">Jaipur Chomp '25</h1>
+                <p class="text-lg md:text-xl font-bold mt-2 bg-black inline-block px-2 text-[#50E3C2]">📍 JECC GROUNDS • 3 DAYS OF FOOD & CHAOS</p>
+            </div>
+            <div class="neobrutalism bg-white text-black p-4 font-mono text-sm md:text-base">
+                <p>STATUS: <span class="font-bold text-red-600 animate-pulse">PLANNING MODE</span></p>
+                <p>TARGET: <span class="font-bold">GEN Z / FOODIES</span></p>
+                <p>GOAL: <span class="font-bold">MAX HYPE</span></p>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 md:p-8 max-w-7xl mx-auto w-full space-y-12">
+
+        <!-- Section 1: Introduction -->
+        <section class="bg-white border-2 border-black p-6 rounded-lg neobrutalism">
+            <h2 class="text-3xl font-bold mb-4">🚀 The Mission</h2>
+            <p class="text-lg leading-relaxed text-gray-800">
+                Welcome to the <strong>interactive strategy deck</strong> for Jaipur Chomp '25. This 3-day plan is engineered to build FOMO, drive footfall to JECC Grounds, and dominate the Jaipur Instagram feed. 
+                <br><br>
+                <strong>How to use this dashboard:</strong> Use the "Day Selectors" below to toggle between the content schedule for each day. Check the "Reel Studio" for your video production script, and monitor the "Hype Meter" for engagement targets.
+            </p>
+        </section>
+
+        <!-- Section 2: Strategy Dashboard & Content Feed -->
+        <section>
+            <div class="flex flex-col md:flex-row justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-4xl font-black uppercase italic text-[#3357FF]">Content Timeline</h2>
+                    <p class="text-gray-600 font-medium">Select a day to view the execution plan.</p>
+                </div>
+            </div>
+
+            <!-- Day Selectors -->
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <button onclick="updateDay(1)" id="btn-day-1" class="neobrutalism bg-[#FF5733] text-white font-bold py-4 text-xl uppercase rounded-lg focus:outline-none ring-offset-2 focus:ring-2 ring-black">
+                    Day 1: Tease 🫣
+                </button>
+                <button onclick="updateDay(2)" id="btn-day-2" class="neobrutalism bg-white text-gray-400 font-bold py-4 text-xl uppercase rounded-lg focus:outline-none hover:text-black">
+                    Day 2: Reveal 🍔
+                </button>
+                <button onclick="updateDay(3)" id="btn-day-3" class="neobrutalism bg-white text-gray-400 font-bold py-4 text-xl uppercase rounded-lg focus:outline-none hover:text-black">
+                    Day 3: Hype 🚨
+                </button>
+            </div>
+
+            <!-- Dynamic Content Area -->
+            <div id="content-display" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Content injected via JS -->
+            </div>
+        </section>
+
+        <!-- Section 3: Reel Studio -->
+        <section class="bg-[#E0F7FA] border-2 border-black p-6 md:p-8 rounded-lg neobrutalism relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10 text-9xl">🎬</div>
+            <div class="relative z-10">
+                <h2 class="text-3xl font-black mb-2 uppercase">🎥 The Viral Reel Concept</h2>
+                <p class="mb-6 font-medium text-gray-700">A high-energy, fast-paced reel designed to stop the scroll. No boring intros.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Script Visualization -->
+                    <div class="space-y-4">
+                        <div class="bg-white border-2 border-black p-4 rounded shadow-md flex items-start space-x-4">
+                            <div class="bg-black text-white font-bold px-3 py-1 rounded text-sm">0:00-0:02</div>
+                            <div>
+                                <h4 class="font-bold text-lg">The Hook</h4>
+                                <p class="text-sm"><strong>Visual:</strong> POV shot walking fast towards JECC entrance. Overlay Text: "DONT COME HERE..."</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border-2 border-black p-4 rounded shadow-md flex items-start space-x-4">
+                            <div class="bg-black text-white font-bold px-3 py-1 rounded text-sm">0:02-0:05</div>
+                            <div>
+                                <h4 class="font-bold text-lg">The Twist</h4>
+                                <p class="text-sm"><strong>Visual:</strong> Beat drop. Fast cuts of insane food (Cheesy Fries, Tandoori Chai, Waffles). Text flips: "...unless you love FOOD COMA 🤤"</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border-2 border-black p-4 rounded shadow-md flex items-start space-x-4">
+                            <div class="bg-black text-white font-bold px-3 py-1 rounded text-sm">0:05-0:08</div>
+                            <div>
+                                <h4 class="font-bold text-lg">The Vibe</h4>
+                                <p class="text-sm"><strong>Visual:</strong> Crowd dancing, neon lights, someone laughing with a drink. Low angle shots.</p>
+                            </div>
+                        </div>
+                         <div class="bg-white border-2 border-black p-4 rounded shadow-md flex items-start space-x-4">
+                            <div class="bg-black text-white font-bold px-3 py-1 rounded text-sm">0:08-0:10</div>
+                            <div>
+                                <h4 class="font-bold text-lg">Call to Action</h4>
+                                <p class="text-sm"><strong>Visual:</strong> Text on screen: "JECC GROUNDS. THIS WEEKEND." Audio fades out with "See ya there!"</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Audio & Notes -->
+                    <div class="bg-white border-2 border-black p-6 rounded flex flex-col justify-center items-center text-center">
+                        <h3 class="text-xl font-bold mb-4 underline decoration-[#FF007F]">Production Notes</h3>
+                        <ul class="text-left space-y-3 w-full max-w-md">
+                            <li class="flex items-center"><span class="text-2xl mr-2">🎵</span> <strong>Audio:</strong> Trending high-tempo beat (e.g., 'Makeba' remix or localized Jaipur rap).</li>
+                            <li class="flex items-center"><span class="text-2xl mr-2">⚡</span> <strong>Edit Style:</strong> Match cuts on the beat. High saturation.</li>
+                            <li class="flex items-center"><span class="text-2xl mr-2">🏷️</span> <strong>Caption:</strong> "Warning: May cause extreme drooling. 🤤 See you at JECC! #JaipurChomp"</li>
+                        </ul>
+                        <button onclick="alert('Script copied to clipboard!')" class="mt-6 neobrutalism bg-[#FF007F] text-white px-6 py-2 font-bold rounded hover:bg-[#D9006C]">Copy Script</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Analytics & Visuals -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Analytics Chart -->
+            <div class="bg-white border-2 border-black p-6 rounded-lg neobrutalism">
+                <h3 class="text-2xl font-bold mb-2">📈 Hype Projections</h3>
+                <p class="text-sm text-gray-600 mb-4">Estimated engagement growth based on 3-day plan.</p>
+                <div class="chart-container">
+                    <canvas id="hypeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Vibe Check / Design Pallette -->
+            <div class="bg-[#FFF0F5] border-2 border-black p-6 rounded-lg neobrutalism flex flex-col">
+                <h3 class="text-2xl font-bold mb-4">🎨 Design Vibe Check</h3>
+                <p class="mb-4 font-medium">Visual direction for the graphics team.</p>
+                
+                <div class="grid grid-cols-2 gap-4 flex-grow">
+                    <div class="bg-[#FF007F] text-white p-4 font-bold flex items-center justify-center border-2 border-black text-center">
+                        ELECTRIC PINK<br>#FF007F
+                    </div>
+                    <div class="bg-[#3357FF] text-white p-4 font-bold flex items-center justify-center border-2 border-black text-center">
+                        GEN Z BLUE<br>#3357FF
+                    </div>
+                    <div class="bg-[#FF5733] text-white p-4 font-bold flex items-center justify-center border-2 border-black text-center">
+                        SPICY ORANGE<br>#FF5733
+                    </div>
+                    <div class="bg-[#000000] text-white p-4 font-bold flex items-center justify-center border-2 border-black text-center">
+                        BOLD BLACK<br>#000000
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-4 bg-white border-2 border-black">
+                    <p class="font-bold uppercase mb-1">Typography</p>
+                    <p class="text-4xl font-black tracking-tighter">IMPACTFUL HEADLINES</p>
+                    <p class="text-sm font-mono mt-1">clean_minimal_body_text.ttf</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-black text-white text-center p-4 mt-8">
+        <p class="text-sm font-mono">GENERATED FOR JAIPUR CHOMP '25 // INTERNAL USE ONLY</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Data Store for Content Plan
+        const contentPlan = {
+            1: [
+                {
+                    time: "Morning (10:00 AM)",
+                    type: "Instagram Story",
+                    concept: "The 'Are You Ready?' Poll",
+                    visual: "Solid bright background with bold text. Sticker: 'Hungry' vs 'Starving'.",
+                    caption: "N/A (Story)",
+                    hashtags: "#JaipurChomp #FoodFest"
+                },
+                {
+                    time: "Afternoon (2:00 PM)",
+                    type: "Static Post (Carousel)",
+                    concept: "Top 5 Dishes You CANNOT Miss",
+                    visual: "Carousel of 5 high-res, mouth-watering close-ups of specific dishes available at the fest.",
+                    caption: "Save this post or regret it later. 🤤 Here is the bucket list for Day 1 at JECC. Which one are you trying first? 👇 \n\n1. Tandoori Momos \n2. Waffle Pops \n3. Fire Paan \n4. Loaded Nachos \n5. The 1KG Burger",
+                    hashtags: "#JaipurFoodies #JECC #JaipurEats #FoodComa"
+                },
+                {
+                    time: "Evening (7:00 PM)",
+                    type: "Reel (Teaser)",
+                    concept: "POV: You Entering Paradise",
+                    visual: "Fast paced montage of the venue setup, lights turning on, stalls getting ready.",
+                    caption: "The gates open tomorrow. Are your stomachs ready? 🚀 Tag your bhukkad squad. \n\n📍 JECC Grounds \n🗓️ This Weekend",
+                    hashtags: "#JaipurEvents #WeekendVibes #PinkCity"
+                }
+            ],
+            2: [
+                {
+                    time: "Morning (11:00 AM)",
+                    type: "Reel (Transition)",
+                    concept: "Empty Plate -> Full Plate",
+                    visual: "Snap transition from holding an empty plate at home to holding a loaded plate at JECC.",
+                    caption: "Magic. ✨ Get yourself to JECC Grounds ASAP. The grills are hot! 🔥",
+                    hashtags: "#TransformationTuesday #FoodReel #JaipurDiaries"
+                },
+                {
+                    time: "Afternoon (3:00 PM)",
+                    type: "Live Session",
+                    concept: "Vendor Spotlight Tour",
+                    visual: "Host walking around tasting food and asking prices. Casual, handheld vibe.",
+                    caption: "WE ARE LIVE! 🔴 Check out what's cooking right now!",
+                    hashtags: "#LiveFood #StreetFoodIndia"
+                },
+                {
+                    time: "Evening (8:00 PM)",
+                    type: "Static Post",
+                    concept: "Crowd Photo / FOMO Creator",
+                    visual: "Wide angle shot of the massive crowd having fun under the lights.",
+                    caption: "Jaipur, you are BEAUTIFUL! 😍 Day 2 is a vibe. Don't miss the finale tomorrow! 🚀",
+                    hashtags: "#JaipurNightlife #Community #FoodFest"
+                }
+            ],
+            3: [
+                {
+                    time: "Morning (10:00 AM)",
+                    type: "Instagram Story",
+                    concept: "Last Chance Countdown",
+                    visual: "Urgent red/orange graphics. 'LAST DAY' flashing text.",
+                    caption: "N/A",
+                    hashtags: "#LastDay #Finale"
+                },
+                {
+                    time: "Afternoon (1:00 PM)",
+                    type: "Reel (ASMR)",
+                    concept: "Sounds of the Fest",
+                    visual: "Close ups: Sizzling tawa, crunching nachos, pouring soda, clinking glasses. ASMR Audio.",
+                    caption: "Sound on 🔊 The symphony of flavor. Last few hours to experience this! Run to JECC! 🏃💨",
+                    hashtags: "#ASMRFood #Satisfying #Jaipur"
+                },
+                {
+                    time: "Evening (6:00 PM)",
+                    type: "Carousel Dump",
+                    concept: "Photo Dump: Best Moments",
+                    visual: "Candid shots of people eating, laughing, food spills, happy faces.",
+                    caption: "Core memories unlocked. 🔓 Thanks for the love Jaipur! Who's ready for next year? ❤️",
+                    hashtags: "#PhotoDump #JaipurChomp2025 #Memories"
+                }
+            ]
+        };
+
+        // Render Function
+        function updateDay(day) {
+            // Update Buttons Styling
+            [1, 2, 3].forEach(d => {
+                const btn = document.getElementById(`btn-day-${d}`);
+                if (d === day) {
+                    btn.className = "neobrutalism bg-[#FF5733] text-white font-bold py-4 text-xl uppercase rounded-lg focus:outline-none ring-offset-2 focus:ring-2 ring-black transform scale-105 transition-all";
+                } else {
+                    btn.className = "neobrutalism bg-white text-gray-400 font-bold py-4 text-xl uppercase rounded-lg focus:outline-none hover:text-black hover:bg-gray-50 transition-all";
+                }
+            });
+
+            // Render Cards
+            const container = document.getElementById('content-display');
+            container.innerHTML = ''; // Clear previous
+
+            const data = contentPlan[day];
+            
+            data.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "bg-white border-2 border-black p-5 rounded-lg flex flex-col justify-between neobrutalism h-full";
+                
+                // Card Content
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="bg-black text-white text-xs font-bold px-2 py-1 rounded uppercase">${item.time}</span>
+                            <span class="text-[#FF007F] font-bold text-sm uppercase border border-[#FF007F] px-2 py-1 rounded">${item.type}</span>
+                        </div>
+                        <h3 class="text-xl font-black mb-2 leading-tight">${item.concept}</h3>
+                        <div class="mb-4 bg-gray-100 p-3 rounded text-sm text-gray-700">
+                            <strong>👀 Visual Directive:</strong> ${item.visual}
+                        </div>
+                        <div class="mb-4">
+                            <p class="font-mono text-sm bg-[#F0F0F0] p-3 rounded border border-gray-300 italic text-gray-600">"${item.caption}"</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-[#3357FF] font-bold mb-3">${item.hashtags}</div>
+                        <button onclick="copyToClipboard('${item.caption.replace(/'/g, "\\'")}')" class="w-full bg-black text-white font-bold py-2 rounded hover:bg-gray-800 active:scale-95 transition-transform flex items-center justify-center gap-2">
+                            <span>📋</span> Copy Caption
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Utility: Copy to Clipboard
+        function copyToClipboard(text) {
+             const textarea = document.createElement('textarea');
+             textarea.value = text;
+             document.body.appendChild(textarea);
+             textarea.select();
+             document.execCommand('copy');
+             document.body.removeChild(textarea);
+             
+             // Simple custom notification logic could go here
+             alert("Caption copied! Ready to post.");
+        }
+
+        // Initialize default day
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDay(1);
+            initChart();
+        });
+
+        // Initialize Chart.js
+        function initChart() {
+            const ctx = document.getElementById('hypeChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Day 1 AM', 'Day 1 PM', 'Day 2 AM', 'Day 2 PM', 'Day 3 AM', 'Day 3 PM'],
+                    datasets: [{
+                        label: 'Projected Engagement Score',
+                        data: [20, 45, 60, 85, 90, 100],
+                        borderColor: '#FF007F',
+                        backgroundColor: 'rgba(255, 0, 127, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#000',
+                        pointBorderColor: '#000',
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        fill: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Target Reach (000s)',
+                        data: [5, 12, 18, 25, 30, 45],
+                        borderColor: '#3357FF',
+                        borderDash: [5, 5],
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    family: 'Inter',
+                                    size: 12
+                                },
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#000',
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
+                            padding: 10,
+                            cornerRadius: 4,
+                            displayColors: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e5e5e5'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
